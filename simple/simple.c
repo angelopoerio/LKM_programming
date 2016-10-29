@@ -1,5 +1,9 @@
 /*
 	A simple start with linux kernel module programming!
+        Compile: make
+	Load module: insmod hello.ko
+        Unload module: rmmod hello
+        Check if everything worked: dmesg|grep -i simple
 	Angelo Poerio - <angelo.poerio@gmail.com>
 */
 
