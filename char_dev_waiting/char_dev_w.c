@@ -5,7 +5,7 @@
         cat /dev/charw0 (process will stay blocked)
         ps -Ao pid,state,cmd|grep char
         --> 7375 S cat /dev/charw0 (state 'S', interruptible process)
-        You can unblock the process issuing this command: echo 'e' > /dev/char0 
+        You can unblock the process issuing this command: echo 'e' > /dev/charw0 
 */
 #include <linux/module.h>
 #include <linux/kernel.h>
