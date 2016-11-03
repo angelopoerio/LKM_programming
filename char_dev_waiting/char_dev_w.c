@@ -1,5 +1,5 @@
 /*
-	A char driver blocking processes in block queue - Angelo Poerio <angelo.poerio@gmail.com>
+	A char driver blocking processes in wait queue - Angelo Poerio <angelo.poerio@gmail.com>
         insmod char_dev_w.ko
         then in a terminal:
         cat /dev/charw0 (process will stay blocked)
