@@ -1,0 +1,115 @@
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/netfilter.h>
+#include <linux/netfilter_ipv4.h>
+/
+*
+we choose a GPL license to refrain from tainting the kernel
+*
+/
+MODULE_LICENSE("GPL");
+/
+*
+other module information
+*
+/
+MODULE_DESCRIPTION("Linux LKM Firewall");
+MODULE_AUTHOR("Netsec Student");
+/
+*
+netfilter struct used for registering a hook
+*
+/
+struct nf_hook_ops hook_options;
+/
+*
+our callback function for the netfilter hook
+*
+/
+unsigned int process_packet(unsigned int hooknum,
+struct sk_buff
+*
+skb,
+const struct net_device
+*
+in,
+const struct net_device
+*
+out,
+int (
+*
+okfn)(struct sk_buff
+*
+))
+{
+600/650.424 Network Security – Linux LKM Firewall
+5
+/
+*
+drop packet
+*
+/
+return NF_DROP;
+}
+/
+*
+module initialization function
+*
+/
+int firewall_init(void)
+{
+/
+*
+log message -- check for messages in /var/log/kern.log
+*
+/
+printk(KERN_INFO "initializing firewall module!\n");
+/
+*
+identify callback function for hook
+*
+/
+hook_options.hook = process_packet;
+/
+*
+indicate where to hook a packet in processing pipeline
+*
+/
+hook_options.hooknum = NF_INET_PRE_ROUTING;
+/
+*
+specify the protocol we want to hook
+*
+/
+hook_options.pf = PF_INET;
+/
+*
+set the priority of our hook
+*
+/
+hook_options.priority = NF_IP_PRI_FIRST;
+/
+*
+register hook with netfilter
+*
+/
+nf_register_hook(&hook_options);
+return(0);
+}
+void firewall_exit(void)
+{
+/
+*
+unregister hook with netfilter when removing module
+*
+/
+nf_unregister_hook(&hook_options);
+printk(KERN_INFO "removing firewall module!\n");
+}
+/
+*
+identify callbacks for module initialization and removal
+*
+/
+module_init(firewall_init);
+module_exit(firewall_exit)
